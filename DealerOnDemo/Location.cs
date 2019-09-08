@@ -15,19 +15,52 @@ namespace DealerOnDemo
             get { return _heading; }
             set { _heading = value; }
         }
-
-
+        public direction TurnLeft(Location currLoc)
+        {
+            if (currLoc._heading == direction.E) currLoc._heading = direction.N;
+            if (currLoc._heading == direction.N) currLoc._heading = direction.W;
+            if (currLoc._heading == direction.W) currLoc._heading = direction.S;
+            if (currLoc._heading == direction.S) currLoc._heading = direction.E;
+            return currLoc.Heading;
+        }
+        public direction TurnRight(Location currLoc)
+        {
+            if (currLoc._heading == direction.E) currLoc._heading = direction.S;
+            if (currLoc._heading == direction.N) currLoc._heading = direction.E;
+            if (currLoc._heading == direction.W) currLoc._heading = direction.N;
+            if (currLoc._heading == direction.S) currLoc._heading = direction.W;
+            return currLoc.Heading;
+        }
+        public Location MoveOneCellForward(Location currLoc)
+        {
+            if (currLoc._heading == direction.E) currLoc.XLoc++;
+            if (currLoc._heading == direction.N) currLoc.YLoc++;
+            if (currLoc._heading == direction.W) currLoc.XLoc--;
+            if (currLoc._heading == direction.S) currLoc.YLoc--;
+            return currLoc;
+        }
         private int[,] _terrainGrid = new int[1, 1];
         public int[,] TerrainGrid
         {
             get { return _terrainGrid; }
             set { _terrainGrid = value; }
         }
-        public void Coordinates(int x, int y)
+        private int _xLoc;
+
+        public int XLoc
         {
-            this._terrainGrid[x, y] = 1;
-            this.Heading = 0;
+            get { return _xLoc; }
+            set { _xLoc = value; }
         }
+        private int _yLoc;
+
+        public int YLoc
+        {
+            get { return _yLoc; }
+            set { _yLoc = value; }
+        }
+
+
         public Location()
         {
             this.TerrainGrid[0, 0] = 1;
