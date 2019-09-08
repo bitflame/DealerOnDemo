@@ -1,0 +1,11 @@
+C:\Users\usr\source\repos\DealerOnDemo\DealerOnDemo\bin\Debug\netcoreapp2.1\DealerOnDemo.deps.json
+C:\Users\usr\source\repos\DealerOnDemo\DealerOnDemo\bin\Debug\netcoreapp2.1\DealerOnDemo.runtimeconfig.json
+C:\Users\usr\source\repos\DealerOnDemo\DealerOnDemo\bin\Debug\netcoreapp2.1\DealerOnDemo.runtimeconfig.dev.json
+C:\Users\usr\source\repos\DealerOnDemo\DealerOnDemo\bin\Debug\netcoreapp2.1\DealerOnDemo.dll
+C:\Users\usr\source\repos\DealerOnDemo\DealerOnDemo\bin\Debug\netcoreapp2.1\DealerOnDemo.pdb
+C:\Users\usr\source\repos\DealerOnDemo\DealerOnDemo\obj\Debug\netcoreapp2.1\DealerOnDemo.csprojAssemblyReference.cache
+C:\Users\usr\source\repos\DealerOnDemo\DealerOnDemo\obj\Debug\netcoreapp2.1\DealerOnDemo.csproj.CoreCompileInputs.cache
+C:\Users\usr\source\repos\DealerOnDemo\DealerOnDemo\obj\Debug\netcoreapp2.1\DealerOnDemo.AssemblyInfoInputs.cache
+C:\Users\usr\source\repos\DealerOnDemo\DealerOnDemo\obj\Debug\netcoreapp2.1\DealerOnDemo.AssemblyInfo.cs
+C:\Users\usr\source\repos\DealerOnDemo\DealerOnDemo\obj\Debug\netcoreapp2.1\DealerOnDemo.dll
+C:\Users\usr\source\repos\DealerOnDemo\DealerOnDemo\obj\Debug\netcoreapp2.1\DealerOnDemo.pdb
