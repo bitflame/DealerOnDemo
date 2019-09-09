@@ -68,7 +68,8 @@ namespace DealerOnDemo
         }
         public Location(int x, int y, direction dir = direction.N)
         {
-            this._terrainGrid[x, y] = 1;
+            this.XLoc = x;
+            this.YLoc = y;
             this._heading = dir;
         }
         public int[,] SetGridSize(int x, int y)
