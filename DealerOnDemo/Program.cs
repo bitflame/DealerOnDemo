@@ -16,11 +16,8 @@ namespace DealerOnDemo
             //goToRequests.Add(new Location(2,3,Location.direction.E));
             //printRoverStatus(goToRequests.First());
             string[] lines = File.ReadAllLines("hqRequestFile.txt");
-            int reqWidth, reqLength;
-            Int32.TryParse(lines[0], out reqWidth);
-            Int32.TryParse(lines[1], out reqLength);
-            currentLoc.SetGridSize(reqWidth, reqLength);
-            foreach (String line in lines.Skip(1))
+            
+            foreach (String line in lines)
             {
                 currentLoc = processRequest(line);
             }
@@ -39,12 +36,17 @@ namespace DealerOnDemo
         
         private static Location processRequest(String request)
         {
+            int reqWidth, reqLength;
             int xCoord, yCoord;
             Char heading;
             Char inst;
             Location currentLoc = new Location();
             String[] charSeparators = new String[] {" ", "\n", "\r\n" };
             String[] items = request.Split(charSeparators, StringSplitOptions.None);
+            Int32.TryParse(items[0], out reqWidth);
+            Int32.TryParse(items[1], out reqLength);
+            currentLoc.SetGridSize(reqWidth, reqLength);
+            printRoverStatus(currentLoc);
             for (int i = 0; i < items.Length; i++)
             {
                 Console.WriteLine(items[i]);
