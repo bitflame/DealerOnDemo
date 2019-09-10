@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using static DealerOnDemo.Location;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace DealerOnDemo
 {
@@ -11,77 +13,77 @@ namespace DealerOnDemo
         static void Main(string[] args)
         {
             Location currentLoc = new Location();
-            //printRoverStatus(currentLoc);
-            //List<Location> goToRequests = new List<Location>();
-            //goToRequests.Add(new Location(2,3,Location.direction.E));
-            //printRoverStatus(goToRequests.First());
+            printRoverStatus(currentLoc);
             string[] lines = File.ReadAllLines("hqRequestFile.txt");
-            
             foreach (String line in lines)
             {
-                currentLoc = processRequest(line);
-            }
-            printRoverStatus(currentLoc);
+                int reqWidth, reqLength;
+                String[] charSeparators = new String[] { "\n", "\r\n" };
+                String[] items = line.Trim().Split(charSeparators, StringSplitOptions.None);
+                foreach (var item in items)
+                {
+                //Use the first line to setup the grid 
+                String pattern1 = @"[\d\s]+[^sSnNeEwW]$";
+                    Regex rgx = new Regex(pattern1);
+                    MatchCollection matches = rgx.Matches(item);
+                    if (matches.Count()!=0)
+                    {
+                        String[] parts = item.Trim().Split(" ");
+                        Int32.TryParse(parts[0], out reqWidth);
+                        Int32.TryParse(parts[1], out reqLength);
+                        currentLoc.SetGridSize(reqWidth, reqLength);
+                    }
+                    //If the line starts with integers followed by N,S,E, and W, use it as your initial location
+                    String pattern2 = @"^\d\s+[nNeEsSwW]{1+}$";
+                    rgx = new Regex(pattern2, RegexOptions.IgnoreCase);
+                    matches = rgx.Matches(item);
+                    if (matches.Count != 0)
+                    {
+                        String[] parts = item.Trim().Split(" ");
+                        Int32 xCoord, yCoord;
+                        Char heading;
+                        Int32.TryParse(parts[0], out xCoord);
+                        Int32.TryParse(parts[1], out yCoord);
+                        Char.TryParse(parts[2], out heading);
+                        currentLoc = new Location(xCoord, yCoord);
+                        currentLoc.Heading = ToEnum<direction>(parts[2]);
+                        printRoverStatus(currentLoc);
+                    }
+                    String pattern3 = @"[L*M*R*]";
+                    rgx = new Regex(pattern3, RegexOptions.IgnoreCase);
+                    matches = rgx.Matches(item);
+                    if (matches.Count != 0)
+                    {
+                        Console.WriteLine("You asked to do {0}",item);
+                        foreach (var i in item)
+                        {
+                            if (i == 'L')
+                            {
+                                currentLoc.Heading = currentLoc.TurnLeft(currentLoc);
+                                Console.WriteLine("Turning Left");
+                            }
+                            if (i == 'M')
+                            {
+                                currentLoc = currentLoc.MoveOneCellForward(currentLoc);
+                                Console.WriteLine("Moving one cell forward");
+                            }
+                            if (i == 'R')
+                            {
+                                currentLoc.Heading = currentLoc.TurnRight(currentLoc);
+                                Console.WriteLine("Turning Right");
+                            }
+                        }
+                        Console.WriteLine("Done with the previous request. I am now at:{0} {1}", currentLoc.XLoc, currentLoc.YLoc);
+                    }   
+                }
+                //If the line starts with characters, match only L,M, and R. to turn and move forward
+                //Any other letters and or combinations throw an invalid input exception    
+            }   
         }
         private static void printRoverStatus(Location loc)
         {
-            for (int i = 0; i <= loc.XLoc; i++)
-            {
-                for (int j = 0; j <= loc.YLoc; j++)
-                {
-                        Console.WriteLine("I am currently at coordinates: {0} {1} facing:{2} direction",i,j,loc.Heading);
-                }
-            }
-        }
-        
-        private static Location processRequest(String request)
-        {
-            int reqWidth, reqLength;
-            int xCoord, yCoord;
-            Char heading;
-            Char inst;
-            Location currentLoc = new Location();
-            String[] charSeparators = new String[] {" ", "\n", "\r\n" };
-            String[] items = request.Split(charSeparators, StringSplitOptions.None);
-            Int32.TryParse(items[0], out reqWidth);
-            Int32.TryParse(items[1], out reqLength);
-            currentLoc.SetGridSize(reqWidth, reqLength);
-            printRoverStatus(currentLoc);
-            for (int i = 0; i < items.Length; i++)
-            {
-                Console.WriteLine(items[i]);
-                //If it is an integer update destination's x coordinate 
-                if (Int32.TryParse(items[i], out xCoord));
-                //If it is not an integer throw an error stating something is wrong and return
-                else if (!Int32.TryParse(items[i], out yCoord))
-                {
-                    Console.WriteLine("Error - Expecting a second integer");
-                    return currentLoc;
-                }
-                //Read the next token, which should be another integer and update the destination's y coordinate
-                else if (Int32.TryParse(items[i], out yCoord))
-                {
-                    currentLoc = new Location(xCoord, yCoord);
-                    i++;
-                }
-                //If you have a value for heading, update the Current Location with the new value
-                else if (char.TryParse(items[i], out heading))
-                {
-
-                    currentLoc.Heading = ToEnum<direction>(items[i]);
-                }
-                //If it is L, change heading to your left
-                else if (char.TryParse(items[i], out inst) && inst == 'L')
-                    currentLoc.Heading = currentLoc.TurnLeft(currentLoc);
-                //If it is R, change heading to your right
-                else if (char.TryParse(items[i], out inst) && inst == 'R')
-                    currentLoc.Heading = currentLoc.TurnRight(currentLoc);
-                //If it is M, move forward one cell in whatever direction you were
-                else if (char.TryParse(items[i], out inst) && inst == 'M')
-                    currentLoc.MoveOneCellForward(currentLoc);
-                else Console.WriteLine("Error at:{0}. Please check the request and resubmit.", items[i]); 
-            }
-            return currentLoc;
+          Console.WriteLine("I am currently at coordinates: {0} {1} facing:{2} direction.",
+              loc.XLoc,loc.YLoc,loc.Heading);
         }
         public static T ToEnum<T>(string @string)
         {

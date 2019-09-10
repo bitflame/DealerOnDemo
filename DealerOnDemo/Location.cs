@@ -75,6 +75,7 @@ namespace DealerOnDemo
         public int[,] SetGridSize(int x, int y)
         {
             this._terrainGrid = new int[x, y];
+            Console.WriteLine("Grid Size set to: {0}, {1} as per your instructions.", x, y);
             return _terrainGrid;
         }
     }
