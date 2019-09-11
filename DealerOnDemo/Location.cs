@@ -17,29 +17,30 @@ namespace DealerOnDemo
         }
         public Location TurnLeft(Location currLoc)
         {
-            if ((Char)currLoc.Heading == 'E') currLoc.Heading = direction.N;
-            if ((Char)currLoc.Heading == 'N') currLoc.Heading = direction.W;
-            if ((Char)currLoc.Heading == 'W') currLoc.Heading = direction.S;
-            if ((Char)currLoc.Heading == 'S') currLoc.Heading = direction.E;
+            if ((Char)currLoc.Heading == 'E') currLoc.Heading = (direction)Enum.ToObject(typeof(direction), 'N');
+            //if ((Char)currLoc.Heading == 'N') currLoc.Heading = direction.W;
+            else if ((Char)currLoc.Heading == 'N') currLoc.Heading = (direction)Enum.ToObject(typeof(direction),'W');
+            else if ((Char)currLoc.Heading == 'W') currLoc.Heading = (direction)Enum.ToObject(typeof(direction), 'S');
+            else if ((Char)currLoc.Heading == 'S') currLoc.Heading = (direction)Enum.ToObject(typeof(direction), 'E');
             return currLoc;
         }
         public Location TurnRight(Location currLoc)
         {
-            if ((Char)currLoc.Heading == 'E') currLoc.Heading = direction.S;
-            if ((Char)currLoc.Heading == 'N') currLoc.Heading = direction.E;
-            if ((Char)currLoc.Heading == 'W') currLoc.Heading = direction.N;
-            if ((Char)currLoc.Heading == 'S') currLoc.Heading = direction.W;
+            if ((Char)currLoc.Heading == 'E') currLoc.Heading = (direction)Enum.ToObject(typeof(direction), 'S');
+            else if ((Char)currLoc.Heading == 'N') currLoc.Heading = (direction)Enum.ToObject(typeof(direction), 'E');
+            else if ((Char)currLoc.Heading == 'W') currLoc.Heading = (direction)Enum.ToObject(typeof(direction), 'N');
+            else if ((Char)currLoc.Heading == 'S') currLoc.Heading = (direction)Enum.ToObject(typeof(direction), 'W');
             return currLoc;
         }
         public Location MoveOneCellForward(Location currLoc)
         {
-            if (currLoc._heading == direction.E) { currLoc.XLoc = currLoc.XLoc + 1; }
-            if (currLoc._heading == direction.N) { currLoc.YLoc = currLoc.YLoc + 1; }
-            if (currLoc._heading == direction.W) { currLoc.XLoc = currLoc.XLoc - 1; }
-            if (currLoc._heading == direction.S) { currLoc.YLoc = currLoc.YLoc - 1; }
+            if ((Char)currLoc._heading == 'E') { currLoc.XLoc = currLoc.XLoc + 1; }
+            else if ((Char)currLoc._heading == 'N') { currLoc.YLoc = currLoc.YLoc + 1; }
+            else if ((Char)currLoc._heading == 'W') { currLoc.XLoc = currLoc.XLoc - 1; }
+            else if ((Char)currLoc._heading == 'S') { currLoc.YLoc = currLoc.YLoc - 1; }
             return currLoc;
         }
-        private int[,] _terrainGrid = new int[1, 1];
+        private int[,] _terrainGrid ;
         public int[,] TerrainGrid
         {
             get { return _terrainGrid; }
@@ -63,7 +64,7 @@ namespace DealerOnDemo
 
         public Location()
         {
-            this.TerrainGrid[0, 0] = 1;
+            this.TerrainGrid = new int [1,1];
             this.Heading = direction.N;
         }
         public Location(int x, int y, direction dir = direction.N)
@@ -79,19 +80,5 @@ namespace DealerOnDemo
             get { return _gridSize; }
             set { _gridSize = value; }
         }
-
-        //public int[,] SetGridSize(int x, int y)
-        //{
-        //    this._terrainGrid = new int[x, y];
-        //    Console.WriteLine("Grid Size set to: {0}, {1} as per your instructions.", x, y);
-        //    return _terrainGrid;
-        //}
-        //public int [] GetGridSize(Location currLoc)
-        //{
-        //    int[] x_y_Values = new int[2];
-        //    x_y_Values[0] = currLoc.XLoc;
-        //    x_y_Values[1] = currLoc.YLoc;
-        //    return x_y_Values;
-        //}
     }
 }

@@ -48,9 +48,11 @@ namespace DealerOnDemo
                         Int32.TryParse(parts[0], out xCoord);
                         Int32.TryParse(parts[1], out yCoord);
                         Char.TryParse(parts[2], out heading);
+                        
                         currentLoc.XLoc = xCoord;
                         currentLoc.YLoc = yCoord;
                         currentLoc.Heading = ToEnum<direction>(parts[2]);
+                        
                         Console.WriteLine("------------Printing the starting Location---");
                         printRoverStatus(currentLoc);
                     }
@@ -93,7 +95,7 @@ namespace DealerOnDemo
         private static void printRoverStatus(Location loc)
         {
           Console.WriteLine("I am currently at coordinates: {0} {1} facing:{2} direction. Grid Size is: {3} {4}",
-              loc.XLoc,loc.YLoc,loc.Heading,loc.GridSize[0],loc.GridSize[1]);
+              loc.XLoc,loc.YLoc,(Char)loc.Heading,loc.GridSize[0],loc.GridSize[1]);
         }
         public static T ToEnum<T>(string @string)
         {
